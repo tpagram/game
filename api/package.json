@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "deploy": "cd ..; git subtree push --prefix api heroku master"
+    "deploy": "cd ..; git subtree push --prefix api heroku-api master"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
