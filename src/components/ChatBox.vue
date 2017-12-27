@@ -23,7 +23,7 @@ import io from 'Socket.io-client'
 export default {
   name: 'ChatBox',
   data () {
-    var socket = io("http://localhost:3000/");
+    var socket = io(process.env.API_SERVER);
     socket.on('user_connected', () => console.log("A user connected!"));
     socket.on('message', (senser, message) => this.receive(senser, message));
     return {
@@ -34,7 +34,7 @@ export default {
     }
   },
   methods : {
-    send: function (){ 
+    send: function (){
       this.socket.emit('message', this.username, this.newMessageText);
       this.newMessageText = '';
     },
