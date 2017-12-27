@@ -21,6 +21,13 @@
 </template>
 
 <script>
+import io from 'Socket.io-client'
+
+var socket = io("http://localhost:3000/")
+socket.on('user_connected', () =>
+  console.log("A user connected!")
+)
+
 export default {
   name: 'HelloWorld',
   data () {
