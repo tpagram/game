@@ -1,13 +1,16 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <ChatBox/>
   </div>
 </template>
 
 <script>
+import ChatBox from './components/ChatBox.vue'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    ChatBox
+  }
 }
 </script>
 
