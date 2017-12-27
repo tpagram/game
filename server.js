@@ -3,12 +3,11 @@ var path = require('path');
 var serveStatic = require('serve-static');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var port = process.env.PORT || 3000;
 
 if (process.env.NODE_ENV == "production") {
   app.use(serveStatic(__dirname + "/dist"));
-  var port = process.env.PORT || 3000;
-  app.listen(port);
-  console.log('server started '+ port);
+  console.log('serving /dist on ' + port);
 }
 
 io.on('connection', function(socket){
@@ -19,8 +18,8 @@ io.on('connection', function(socket){
   });
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+http.listen(port, function(){
+  console.log('listening on ' + port);
 });
 
 module.exports = app;

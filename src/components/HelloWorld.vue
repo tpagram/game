@@ -22,8 +22,7 @@
 
 <script>
 import io from 'Socket.io-client'
-
-var socket = io("http://localhost:3000/")
+var socket = io(process.env.API_SERVER)
 socket.on('user_connected', () =>
   console.log("A user connected!")
 )
