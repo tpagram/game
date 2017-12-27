@@ -9,24 +9,38 @@
         </div>
     </div>
     <div class="message-entry">
-      <input type="text" placeholder="Type message here...">
-      <button>Send</button>
+      <input v-model="newMessageText" type="text" placeholder="Type message here...">
+      <button v-on:click="sendMessage">Send</button>
     </div>
   </div>
 </template>
 
 <script>
+// Load clientside socket
+import io from 'Socket.io-client'
 
 export default {
   name: 'ChatBox',
   data () {
+    var socket = io("http://localhost:3000/")
+    socket.on('user_connected', () => console.log("A user connected!"));
+    socket.on('message', () => console.log("blah"));
     return {
+      newMessageText: '',
+      socket,
       messages: [
         {sender: 'Thomas', text: 'Bro'},
         {sender: 'Morgan', text: 'Bro..'},
         {sender: 'Scott', text: '..Bro'},
         {sender: 'Kroum', text: 'Broseph'}
       ]
+    }
+  },
+  methods : {
+    sendMessage: function (){
+      console.log('sending: ' + this.newMessageText);   
+      this.socket.emit('message', this.newMessageText);
+      this.newMessageText = '';
     }
   }
 }
