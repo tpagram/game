@@ -1,6 +1,7 @@
 <template>
   <div class="chatbox">
     <h1>ChatBox</h1>
+    <input v-model="username" type="text" placeholder="Type username here...">
     <!-- Container for all the messages in the chat intended to be rendered vertically ontop of one another -->
     <div class="message-display">
       <div v-for="message in messages" v-bind:key="message.id">
@@ -10,7 +11,7 @@
     </div>
     <div class="message-entry">
       <input v-model="newMessageText" type="text" placeholder="Type message here...">
-      <button v-on:click="sendMessage">Send</button>
+      <button v-on:click="send">Send</button>
     </div>
   </div>
 </template>
@@ -24,27 +25,21 @@ export default {
   data () {
     var socket = io("http://localhost:3000/");
     socket.on('user_connected', () => console.log("A user connected!"));
-    socket.on('message', (message) => this.receive(message, "anon"));
-
+    socket.on('message', (senser, message) => this.receive(senser, message));
     return {
+      username: '',
       newMessageText: '',
       socket,
-      messages: [
-        {sender: 'Thomas', text: 'Bro'},
-        {sender: 'Morgan', text: 'Bro..'},
-        {sender: 'Scott', text: '..Bro'},
-        {sender: 'Kroum', text: 'Broseph'}
-      ]
+      messages: []
     }
   },
   methods : {
-    sendMessage: function (){
-      console.log('sending: ' + this.newMessageText);   
-      this.socket.emit('message', this.newMessageText);
+    send: function (){ 
+      this.socket.emit('message', this.username, this.newMessageText);
       this.newMessageText = '';
     },
-    receive: function(message, sender){
-      console.log(message)
+    receive: function(sender, message){
+      if (sender == '') { sender = 'anon' }
       this.messages.push({'sender': sender, 'text': message})
     }
   }

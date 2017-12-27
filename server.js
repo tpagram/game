@@ -18,10 +18,10 @@ io.on('connection', function(socket){
     console.log('user disconnected');
   });
 
-  socket.on('message', function(message){
-    io.emit('message', message);
+  socket.on('message', function(sender, message){
+    io.emit('message', sender, message);
   });
-  
+
 });
 
 http.listen(3000, function(){
